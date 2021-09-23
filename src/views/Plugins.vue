@@ -14,7 +14,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import TriggerPulse from "@/components/TriggerPulse.vue"
 export default {
-  name: "HelloWorld",
+  name: "Plugins",
   components:{
     TriggerPulse
   },

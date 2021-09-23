@@ -1,17 +1,53 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <InputText v-model="token" />
+    <Button displayText="OK" actionName="login" @action='login' />
+    {{token}}
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { ref } from "vue";
+import axios from "axios";
+import router from "@/router";
+
+import InputText from "@/components/Common/InputText.vue";
+import Button from "@/components/Common/Button.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld
-  }
-}
+    InputText,
+    Button,
+  },
+  setup() {
+    const token = ref("");
+
+    async function login() {
+      try {
+        const authRoute = await axios.post(
+          "http://localhost:3000/api/v1/users/auth",
+          null,
+          {
+            headers: {
+              authorization: `Bearer ${token.value}`
+            },
+          }
+        );
+        localStorage.id = authRoute.data.id;
+        localStorage.token = token.value;
+        console.log(authRoute);
+        router.push({ name: "Plugins" });
+      } catch (error) {
+        alert("fail")
+        console.log(error)        
+      }
+    }
+
+    return {
+      token,
+      login,
+    };
+  },
+};
 </script>
