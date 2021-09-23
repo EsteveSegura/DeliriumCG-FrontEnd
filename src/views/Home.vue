@@ -1,13 +1,19 @@
 <template>
   <div class="home">
-    <InputText v-model="token" />
-    <Button displayText="OK" actionName="login" @action='login' />
-    {{token}}
+    <div class="login" v-if="token">
+      {{token}}
+      <InputText v-model="token" />
+      <Button displayText="OK" actionName="login" @action="login" />
+    </div>
+    <div v-else>
+      <h1>You already logged</h1>
+      Go to 👉 <router-link to="/plugins">Plugins</router-link>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import router from "@/router";
 
@@ -22,6 +28,13 @@ export default {
   },
   setup() {
     const token = ref("");
+    const id = ref("");
+
+    onMounted( () => {
+      if(localStorage.id){
+        id.value = localStorage.id;
+      }
+    });
 
     async function login() {
       try {
@@ -30,24 +43,31 @@ export default {
           null,
           {
             headers: {
-              authorization: `Bearer ${token.value}`
+              authorization: `Bearer ${token.value}`,
             },
           }
         );
         localStorage.id = authRoute.data.id;
         localStorage.token = token.value;
-        console.log(authRoute);
         router.push({ name: "Plugins" });
       } catch (error) {
-        alert("fail")
-        console.log(error)        
+        alert("fail");
       }
     }
 
     return {
+      id,
       token,
       login,
     };
   },
 };
 </script>
+
+<style scoped>
+a, a:visited{
+  text-decoration: none;
+  color: var(--white);
+  text-decoration: underline;
+}
+</style>
