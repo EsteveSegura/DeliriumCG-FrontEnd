@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Plugins from '../views/Plugins.vue'
+import CreatePlugin from '../views/CreatePlugin.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/plugins',
     name: 'Plugins',
     component: Plugins
+  },
+  {
+    path: '/plugins/create',
+    name: 'Create Plugin',
+    component: CreatePlugin
   }
 ]
 

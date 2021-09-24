@@ -1,19 +1,19 @@
 <template>
   <div class="home">
-    <div class="login" v-if="token">
+    <div class="login" >
       {{token}}
       <InputText v-model="token" />
       <Button displayText="OK" actionName="login" @action="login" />
     </div>
-    <div v-else>
+    <!-- <div v-else>
       <h1>You already logged</h1>
       Go to 👉 <router-link to="/plugins">Plugins</router-link>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 import router from "@/router";
 
@@ -29,12 +29,6 @@ export default {
   setup() {
     const token = ref("");
     const id = ref("");
-
-    onMounted( () => {
-      if(localStorage.id){
-        id.value = localStorage.id;
-      }
-    });
 
     async function login() {
       try {
