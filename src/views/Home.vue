@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="login" >
-      {{token}}
+      <h2>Login</h2>
       <InputText v-model="token" />
       <Button displayText="OK" actionName="login" @action="login" />
     </div>

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Plugins from '../views/Plugins.vue'
 import CreatePlugin from '../views/CreatePlugin.vue'
+import Store from '../views/Store.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/plugins/create',
     name: 'Create Plugin',
     component: CreatePlugin
+  },
+  {
+    path: '/plugins/store',
+    name: 'Store',
+    component: Store
   }
 ]
 

@@ -2,7 +2,8 @@
   <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/plugins">Plugins</router-link> |
-    <router-link to="/plugins/create">Create Plugin</router-link>
+    <router-link to="/plugins/create">Create Plugin</router-link> |
+    <router-link to="/plugins/store">Store</router-link> 
   </div>
   <router-view/>
 </template>
