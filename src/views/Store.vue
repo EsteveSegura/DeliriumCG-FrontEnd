@@ -31,6 +31,7 @@ export default {
   setup() {
     let plugins = ref({});
     let token = ref(localStorage.token);
+    const API_URL = process.env.VUE_APP_API_URL
     const message = useMessage();
 
     onMounted(async () => {
@@ -40,7 +41,7 @@ export default {
     async function addPlugin(value) {
       try {
         await axios.put(
-          `http://localhost:3000/api/v1/plugins/${value}/transfer`,
+          `${API_URL}/api/v1/plugins/${value}/transfer`,
           null,
           {
             headers: {
@@ -57,7 +58,7 @@ export default {
     async function getPlugins() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/plugins",
+          `${API_URL}/api/v1/plugins`,
           {
             headers: {
               authorization: `Bearer ${token.value}`,

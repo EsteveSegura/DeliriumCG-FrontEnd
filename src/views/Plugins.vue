@@ -13,7 +13,7 @@
             <template #trigger>
               <a
                 :href="
-                  'http://localhost:3000/overlay/' +
+                  `${API_URL}/overlay/` +
                     encodeURI(plugin.id) +
                     '?layer-name=' +
                     encodeURI(plugin.name) +
@@ -52,6 +52,7 @@ export default {
     NPopover,
   },
   setup() {
+    const API_URL = ref(process.env.VUE_APP_API_URL)
     const id = ref("");
     const data = ref({});
     id.value = localStorage.id;
@@ -59,7 +60,7 @@ export default {
     onMounted(async () => {
       try {
         const plugins = await axios.get(
-          `http://localhost:3000/api/v1/users/${id.value}`
+          `${API_URL.value}/api/v1/users/${id.value}`
         );
         data.value = plugins.data;
         console.log(plugins);
@@ -70,8 +71,9 @@ export default {
     });
 
     return {
+      API_URL,
       id,
-      data,
+      data
     };
   },
 };

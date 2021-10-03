@@ -35,6 +35,8 @@ export default {
     NSpace,
   },
   setup() {
+    const API_URL = process.env.VUE_APP_API_URL
+    const URL_TWITCH = process.env.VUE_APP_URL_TWITCH
     const token = ref("");
     const id = ref("");
     const message = useMessage();
@@ -49,7 +51,7 @@ export default {
     async function login() {
       try {
         const authRoute = await axios.post(
-          "http://localhost:3000/api/v1/users/auth",
+          `${API_URL}/api/v1/users/auth`,
           null,
           {
             headers: {
@@ -66,9 +68,7 @@ export default {
     }
 
     function twitchLogin() {
-      window.open(
-        "https://id.twitch.tv/oauth2/authorize?client_id=m4cbkuf3wx1go0wdc2nl9sm7dap8a6&redirect_uri=http://localhost:8080/auth&response_type=token&scope=user:read:email"
-      );
+      window.open(URL_TWITCH);
     }
 
     return {

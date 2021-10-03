@@ -95,6 +95,7 @@ export default {
     NInputNumber,
   },
   setup() {
+    const API_URL = process.env.VUE_APP_API_URL
     const title = ref("");
     const triggers = ref([]);
     const src = ref("");
@@ -115,7 +116,7 @@ export default {
     async function createPlugin() {
       try {
         const response = await axios.post(
-          "http://localhost:3000/api/v1/plugins",
+          `${API_URL}/api/v1/plugins`,
           {
             name: title.value,
             source: src.value,

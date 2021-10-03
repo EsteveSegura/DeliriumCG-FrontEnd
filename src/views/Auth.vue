@@ -17,6 +17,7 @@ export default {
     NSpin
   },
   setup() {
+    const API_URL = process.env.VUE_APP_API_URL
     const route = useRoute();
     const id = ref("");
     const data = ref({});
@@ -28,7 +29,7 @@ export default {
 
     onMounted(async () => {
       try {
-        const auth = await axios.post(`http://localhost:3000/api/v1/users/`, {
+        const auth = await axios.post(`${API_URL}/api/v1/users/`, {
           twitchToken: access_token.value,
         });
         data.value = auth.data;

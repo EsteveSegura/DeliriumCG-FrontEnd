@@ -22,13 +22,14 @@ export default {
     NButton,
   },
   setup(props) {
+    const API_URL = process.env.VUE_APP_API_URL
     const token = ref("");
     const message = useMessage();
 
     async function triggerPulse(value) {
       try {
         const authRoute = await axios.post(
-          `http://localhost:3000/api/v1/plugins/${props.pluginId}/trigger/pulse`,
+          `${API_URL}/api/v1/plugins/${props.pluginId}/trigger/pulse`,
           { name: value },
           {
             headers: {
