@@ -6,13 +6,16 @@
       content-style="text-align: center; background-color: var(--dark-blue);"
     >
       <n-space vertical>
-        <n-input
-          v-model:value="token"
-          type="password"
-          show-password-on="mousedown"
-          placeholder="Token auth"
-        />
-        <n-button type="primary" size="medium" @click="login">LogIn</n-button>
+        <div v-if="!isAuth">
+          <n-button type="primary" size="medium" @click="twitchLogin">
+            Twitch LogIn
+          </n-button>
+        </div>
+        <div v-else>
+          <n-button type="primary" size="medium" @click="logout">
+            LogOut
+          </n-button>
+        </div>
       </n-space>
     </n-card>
   </div>
@@ -22,13 +25,12 @@
 import { ref } from "vue";
 import axios from "axios";
 import router from "@/router";
-import { NButton, NInput, NCard, NSpace, useMessage } from "naive-ui";
+import { NButton, NCard, NSpace, useMessage } from "naive-ui";
 
 export default {
   name: "Home",
   components: {
     NButton,
-    NInput,
     NCard,
     NSpace,
   },
@@ -36,6 +38,13 @@ export default {
     const token = ref("");
     const id = ref("");
     const message = useMessage();
+    let isAuth = ref(localStorage.token != null);
+
+    function logout(){
+      localStorage.removeItem('id');
+      localStorage.removeItem('token');
+      isAuth.value = localStorage.token != null;
+    }
 
     async function login() {
       try {
@@ -56,11 +65,20 @@ export default {
       }
     }
 
+    function twitchLogin() {
+      window.open(
+        "https://id.twitch.tv/oauth2/authorize?client_id=m4cbkuf3wx1go0wdc2nl9sm7dap8a6&redirect_uri=http://localhost:8080/auth&response_type=token&scope=user:read:email"
+      );
+    }
+
     return {
       id,
       message,
       token,
       login,
+      twitchLogin,
+      isAuth,
+      logout
     };
   },
 };
