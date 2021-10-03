@@ -1,14 +1,20 @@
 <template>
-  <div class="home">
-    <div class="login" >
-      <h2>Login</h2>
-      <InputText v-model="token" />
-      <Button displayText="OK" actionName="login" @action="login" />
-    </div>
-    <!-- <div v-else>
-      <h1>You already logged</h1>
-      Go to 👉 <router-link to="/plugins">Plugins</router-link>
-    </div> -->
+  <div class="container">
+    <n-card
+      title="Login"
+      header-style="background-color: var(--dark-blue);"
+      content-style="text-align: center; background-color: var(--dark-blue);"
+    >
+      <n-space vertical>
+        <n-input
+          v-model:value="token"
+          type="password"
+          show-password-on="mousedown"
+          placeholder="Token auth"
+        />
+        <n-button type="primary" size="medium" @click="login">LogIn</n-button>
+      </n-space>
+    </n-card>
   </div>
 </template>
 
@@ -16,19 +22,20 @@
 import { ref } from "vue";
 import axios from "axios";
 import router from "@/router";
-
-import InputText from "@/components/Common/InputText.vue";
-import Button from "@/components/Common/Button.vue";
+import { NButton, NInput, NCard, NSpace, useMessage } from "naive-ui";
 
 export default {
   name: "Home",
   components: {
-    InputText,
-    Button,
+    NButton,
+    NInput,
+    NCard,
+    NSpace,
   },
   setup() {
     const token = ref("");
     const id = ref("");
+    const message = useMessage();
 
     async function login() {
       try {
@@ -45,12 +52,13 @@ export default {
         localStorage.token = token.value;
         router.push({ name: "Plugins" });
       } catch (error) {
-        alert("fail");
+        message.error("The service cannot be accessed with these credentials.");
       }
     }
 
     return {
       id,
+      message,
       token,
       login,
     };
@@ -59,7 +67,14 @@ export default {
 </script>
 
 <style scoped>
-a, a:visited{
+.container {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+a,
+a:visited {
   text-decoration: none;
   color: var(--white);
   text-decoration: underline;

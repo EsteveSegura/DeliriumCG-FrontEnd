@@ -1,14 +1,16 @@
 <template>
   <div>
-    {{ name }} <br>
-    <Button :displayText="name" :actionName="name" @action="triggerPulse" />
+    {{ name }} <br />
+    <n-button type="primary" size="medium" @click="triggerPulse(name)">
+      {{ name }}
+    </n-button>
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
 import axios from "axios";
-import Button from "@/components/Common/Button.vue";
+import { NButton, useMessage } from "naive-ui";
 
 export default {
   name: "HelloWorld",
@@ -17,10 +19,11 @@ export default {
     name: String,
   },
   components: {
-    Button,
+    NButton,
   },
   setup(props) {
     const token = ref("");
+    const message = useMessage();
 
     async function triggerPulse(value) {
       try {
@@ -34,8 +37,9 @@ export default {
           }
         );
         console.log(authRoute);
+        message.success(`the '${value}' action has been launched`);
       } catch (error) {
-        console.log(error);
+        message.error(`the '${value}' action cannot be launched`);
       }
     }
 

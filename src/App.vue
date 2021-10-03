@@ -1,12 +1,32 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/plugins">Plugins</router-link> |
-    <router-link to="/plugins/create">Create Plugin</router-link> |
-    <router-link to="/plugins/store">Store</router-link> 
-  </div>
-  <router-view/>
+  <n-config-provider :theme="darkTheme">
+    <n-message-provider>
+      <div id="nav">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/plugins">Plugins</router-link> |
+        <router-link to="/plugins/create">Create Plugin</router-link> |
+        <router-link to="/plugins/store">Store</router-link>
+      </div>
+      <router-view />
+    </n-message-provider>
+  </n-config-provider>
 </template>
+
+<script>
+import { darkTheme, NConfigProvider, NMessageProvider } from "naive-ui";
+
+export default {
+  components: {
+    NConfigProvider,
+    NMessageProvider,
+  },
+  setup() {
+    return {
+      darkTheme,
+    };
+  },
+};
+</script>
 
 <style>
 html {
@@ -18,7 +38,7 @@ html {
 *:after {
   box-sizing: inherit;
 }
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
 :root {
   --dark-hard-blue: #070d17;
   --dark-blue: #182035;
@@ -26,16 +46,12 @@ html {
   --red: #ed3044;
   --white: white;
 }
-body{
+body {
   background-color: var(--dark-hard-blue);
   color: var(--white);
-  font-family: 'Roboto', sans-serif;
-
+  font-family: "Roboto", sans-serif;
 }
 
-#app {
-  text-align: center;
-}
 
 #nav {
   padding: 30px;

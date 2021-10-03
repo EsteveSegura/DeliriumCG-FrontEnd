@@ -1,16 +1,39 @@
 <template>
-  <div class="grid">
-    <div class="plugin" v-for="plugin in data.plugins" :key="plugin.id">
-      <h2>{{ plugin.name }}</h2>
-      <a :href="'http://localhost:3000/overlay/' + encodeURI(plugin.id) +'?layer-name='+ encodeURI(plugin.name) +'&layer-width=1280&layer-height=1080'">⚾</a><br />
-      <br />
-      <TriggerPulse
-        v-for="trigger in plugin.triggers"
-        :key="trigger.name"
-        :name="trigger.name"
-        :pluginId="plugin.id"
-      />
-    </div>
+  <div class="container">
+    <n-space vertical>
+      <n-card
+        :title="plugin.name"
+        v-for="plugin in data.plugins"
+        :key="plugin.id"
+        header-style="background-color: var(--dark-blue);"
+        content-style="text-align: center; background-color: var(--dark-blue);"
+      >
+        <template #header-extra>
+          <n-popover trigger="hover">
+            <template #trigger>
+              <a
+                :href="
+                  'http://localhost:3000/overlay/' +
+                    encodeURI(plugin.id) +
+                    '?layer-name=' +
+                    encodeURI(plugin.name) +
+                    `&layer-width=${plugin.width}&layer-height=${plugin.height}`
+                "
+                >⚾</a
+              >
+            </template>
+            <span>Drag and drop this ball to your OBS </span>
+          </n-popover>
+        </template>
+
+        <TriggerPulse
+          v-for="trigger in plugin.triggers"
+          :key="trigger.name"
+          :name="trigger.name"
+          :pluginId="plugin.id"
+        />
+      </n-card>
+    </n-space>
   </div>
 </template>
 
@@ -18,11 +41,15 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 
+import { NCard, NSpace, NPopover } from "naive-ui";
 import TriggerPulse from "@/components/TriggerPulse.vue";
 export default {
   name: "Plugins",
   components: {
     TriggerPulse,
+    NCard,
+    NSpace,
+    NPopover,
   },
   setup() {
     const id = ref("");
@@ -40,7 +67,6 @@ export default {
         console.log(error);
       }
       console.log(data.value);
-
     });
 
     return {
@@ -52,23 +78,22 @@ export default {
 </script>
 
 <style scoped>
-a, a:visited{
+a,
+a:visited {
   text-decoration: none;
 }
 
+.container {
+  widows: 100%;
+  margin: 0 auto;
+}
+
+/*
 .grid {
   margin: 1.5em auto;
   column-gap: 1.5em;
   column-count: 4;
 }
-.plugin {
-  background-color: var(--dark-blue);
-  display: inline-block;
-  margin: 1rem 1rem 0rem 1rem;
-  border-radius: 15px;
-  width: 100%;
-}
-
 @media only screen and (min-width: 1024px) {
   .grid {
     column-count: 4;
@@ -81,10 +106,11 @@ a, a:visited{
   }
 }
 
-@media only screen and (max-width: 767px)  {
+@media only screen and (max-width: 767px) {
   .grid {
     column-count: 2;
   }
 }
 
+*/
 </style>

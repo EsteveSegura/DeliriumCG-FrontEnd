@@ -1,28 +1,37 @@
 <template>
   <div class="container">
-    <div class="component" v-for="plugin in plugins" :key="plugin.id">
-      {{ plugin.name }} <br />
-      <Button
-        :displayText="'Add ' + plugin.name"
-        :actionName="plugin.id"
-        @action="addPlugin"
-      />
-    </div>
+    <n-card
+      :title="plugin.name"
+      v-for="plugin in plugins"
+      :key="plugin.id"
+      header-style="background-color: var(--dark-blue);"
+      content-style="text-align: center; background-color: var(--dark-blue);"
+    >
+      <n-space vertical>
+        <n-button type="primary" size="medium" @click="addPlugin(plugin.id)">
+          Add {{ plugin.name }}
+        </n-button>
+      </n-space>
+    </n-card>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
+import { NButton, useMessage, NCard, NSpace } from "naive-ui";
+
 import axios from "axios";
-import Button from "@/components/Common/Button";
 export default {
   name: "Store",
   components: {
-    Button,
+    NButton,
+    NCard,
+    NSpace,
   },
   setup() {
     let plugins = ref({});
     let token = ref(localStorage.token);
+    const message = useMessage();
 
     onMounted(async () => {
       await getPlugins();
@@ -30,7 +39,7 @@ export default {
 
     async function addPlugin(value) {
       try {
-        const response = await axios.put(
+        await axios.put(
           `http://localhost:3000/api/v1/plugins/${value}/transfer`,
           null,
           {
@@ -39,9 +48,9 @@ export default {
             },
           }
         );
-        console.log(response)
+        message.success("Plugin added to your list, you can use it now!");
       } catch (error) {
-        alert("fail: " + error);
+        message.error("You cannot add this plugin to your list.");
       }
     }
 
@@ -57,7 +66,7 @@ export default {
         );
         plugins.value = response.data.plugins;
       } catch (error) {
-        alert("fail");
+        console.log(error);
       }
     }
 
